@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Thorne & Co. — Bespoke Furniture</title>
+
+<!-- Google Fonts: Cormorant (serif headings) + Jost (clean body) -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet"/>
+
+<style>
+/* ── RESET ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ── COLOR VARIABLES — change these to retheme the whole site ── */
+:root {
+  --obsidian:       #0a0a0b;
+  --obsidian-mid:   #111114;
+  --gold:           #c9a84c;
+  --gold-light:     #e0c278;
+  --gold-dim:       #7a6230;
+  --cream:          #f0ead8;
+  --muted:          #6b6660;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--obsidian);
+  color: var(--cream);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 3rem;
+  background: linear-gradient(to bottom, rgba(10,10,11,0.95) 0%, transparent 100%);
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  text-decoration: none;
+  color: var(--cream);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  transition: opacity 0.3s, color 0.3s;
+}
+.nav-links a:hover { opacity: 1; color: var(--gold); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 3rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 80% at 80% 50%, rgba(201,168,76,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 20% 80%, rgba(201,168,76,0.03) 0%, transparent 60%);
+}
+.hero-rule {
+  width: 3rem; height: 1px;
+  background: var(--gold);
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.2s forwards;
+}
+.hero-eyebrow {
+  font-size: 0.65rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.4s forwards;
+}
+.hero-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 300;
+  line-height: 1.05;
+  margin-bottom: 2rem;
+  max-width: 18ch;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.6s forwards;
+}
+.hero-headline em { font-style: italic; color: var(--gold-light); }
+.hero-sub {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 2;
+  max-width: 36ch;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.8s forwards;
+}
+.btn-consult {
+  display: inline-block;
+  text-decoration: none;
+  border: 1px solid var(--gold-dim);
+  color: var(--gold);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 1rem 2.5rem;
+  transition: background 0.4s, border-color 0.4s, color 0.4s;
+  opacity: 0;
+  animation: fadeUp 1s ease 1s forwards;
+}
+.btn-consult:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--obsidian);
+}
+.hero-scroll {
+  position: absolute;
+  bottom: 2.5rem; left: 3rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  opacity: 0;
+  animation: fadeUp 1s ease 1.2s forwards;
+}
+.hero-scroll::before {
+  content: '';
+  display: block;
+  width: 2rem; height: 1px;
+  background: var(--gold-dim);
+}
+
+/* ── COLLECTION ── */
+.collection { padding: 8rem 3rem; }
+.section-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 300;
+  margin-bottom: 1rem;
+}
+.section-desc {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 2;
+  max-width: 40ch;
+  margin-bottom: 4rem;
+}
+
+/* ── GALLERY GRID ── */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+/* The card itself — position:relative so children can use position:absolute */
+.gallery-item {
+  position: relative;   /* ← parent anchor for absolute children */
+  overflow: hidden;
+  cursor: pointer;
+  aspect-ratio: 3 / 4;
+  background: #0d0d0f;
+}
+.gallery-item:nth-child(2) { margin-top: 2.5rem; }
+
+/* Canvas fills the whole card */
+.gallery-canvas {
+  position: absolute;  /* ← sits inside the relative parent */
+  inset: 0;
+  width: 100%; height: 100%;
+  transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.gallery-item:hover .gallery-canvas { transform: scale(1.04); }
+
+/* Dark gradient overlay so text is readable on top of canvas */
+.gallery-item-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(6,6,8,0.92) 0%, transparent 70%);
+}
+
+/* Text content sits at the bottom of each card */
+.gallery-item-content {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 2rem 1.8rem;
+  transform: translateY(8px);
+  transition: transform 0.5s ease;
+}
+.gallery-item:hover .gallery-item-content { transform: translateY(0); }
+.product-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin-bottom: 0.3rem;
+}
+.product-material {
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.8rem;
+}
+.product-price {
+  font-size: 0.7rem;
+  color: var(--muted);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.4s 0.1s, transform 0.4s 0.1s;
+}
+.gallery-item:hover .product-price { opacity: 1; transform: translateY(0); }
+
+/* Gold line that slides across the top of each card on hover */
+.gallery-item::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--gold);
+  z-index: 2;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s ease;
+}
+.gallery-item:hover::before { transform: scaleX(1); }
+
+/* ── DIVIDER ── */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold-dim) 30%, var(--gold-dim) 70%, transparent);
+  opacity: 0.4;
+}
+
+/* ── STATEMENT ── */
+.statement {
+  padding: 8rem 3rem;
+  display: flex;
+  align-items: center;
+  gap: 5rem;
+}
+.statement-quote {
+  flex: 1;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-style: italic;
+  line-height: 1.4;
+}
+.statement-quote span { color: var(--gold-light); }
+.statement-aside { width: 240px; flex-shrink: 0; }
+.statement-aside p {
+  font-size: 0.72rem;
+  line-height: 1.9;
+  color: var(--muted);
+}
+
+/* ── CTA ── */
+.cta {
+  padding: 8rem 3rem;
+  text-align: center;
+  background: var(--obsidian-mid);
+}
+.cta-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+}
+.cta-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 300;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+.cta-sub {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 2;
+  max-width: 42ch;
+  margin: 0 auto 3rem;
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  letter-spacing: 0.2em;
+  color: var(--gold-dim);
+}
+.footer-copy { font-size: 0.6rem; color: var(--muted); }
+
+/* ── SCROLL REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── KEYFRAME — used by hero elements on page load ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-logo">Thorne & Co.</div>
+  <ul class="nav-links">
+    <li><a href="#collection">Collection</a></li>
+    <li><a href="#consultation">Consult</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-rule"></div>
+  <p class="hero-eyebrow">Thorne & Co. — Est. 2009</p>
+  <h1 class="hero-headline">Crafting <em>Shadows</em> & Light.</h1>
+  <p class="hero-sub">Bespoke obsidian and walnut furniture, hand-crafted for those who understand that true luxury is felt, not seen.</p>
+  <a href="mailto:elias@thorneandco.com" class="btn-consult">Request a Consultation</a>
+  <div class="hero-scroll">Scroll to explore</div>
+</section>
+
+<!-- ── COLLECTION ── -->
+<section class="collection" id="collection">
+  <p class="section-label reveal">The Signature Collection</p>
+  <h2 class="section-title reveal">Pieces that endure.</h2>
+  <p class="section-desc reveal">Each table is a singular work — obsidian and walnut, joined by hand. No two are alike.</p>
+  <div class="gallery-grid">
+    <div class="gallery-item reveal">
+      <canvas class="gallery-canvas" id="c1"></canvas>
+      <div class="gallery-item-overlay"></div>
+      <div class="gallery-item-content">
+        <p class="product-material">Obsidian & Black Walnut</p>
+        <h3 class="product-name">The Umbra Table</h3>
+        <p class="product-price">From $7,500 — Made to order</p>
+      </div>
+    </div>
+    <div class="gallery-item reveal">
+      <canvas class="gallery-canvas" id="c2"></canvas>
+      <div class="gallery-item-overlay"></div>
+      <div class="gallery-item-content">
+        <p class="product-material">Dark Walnut & Brass</p>
+        <h3 class="product-name">The Aurum Console</h3>
+        <p class="product-price">From $5,200 — Made to order</p>
+      </div>
+    </div>
+    <div class="gallery-item reveal">
+      <canvas class="gallery-canvas" id="c3"></canvas>
+      <div class="gallery-item-overlay"></div>
+      <div class="gallery-item-content">
+        <p class="product-material">Smoked Obsidian & Oak</p>
+        <h3 class="product-name">The Noctis Desk</h3>
+        <p class="product-price">From $6,800 — Made to order</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ── STATEMENT ── -->
+<section class="statement">
+  <p class="statement-quote reveal">"We don't make furniture.<br>We make the <span>room</span> around it."</p>
+  <div class="statement-aside reveal">
+    <p>Every piece begins with a conversation. Elias Thorne works directly with each client to understand the space, the light, and the life the piece will inhabit.</p>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta" id="consultation">
+  <p class="cta-label reveal">Begin the process</p>
+  <h2 class="cta-headline reveal">Your space.<br>Our craft.</h2>
+  <p class="cta-sub reveal">Consultations are private, unhurried, and complimentary.</p>
+  <a href="mailto:elias@thorneandco.com" class="btn-consult reveal">Email Elias Directly</a>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">Thorne & Co.</div>
+  <p class="footer-copy">© 2025 Thorne & Co. Bespoke Furniture. New York.</p>
+</footer>
+
+<script>
+/* ── CANVAS: Umbra Table (obsidian slab + walnut legs) ── */
+function drawUmbra(canvas) {
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const bg = ctx.createLinearGradient(0,0,W,H);
+  bg.addColorStop(0,'#0c0c10'); bg.addColorStop(0.5,'#09090c'); bg.addColorStop(1,'#111118');
+  ctx.fillStyle = bg; ctx.fillRect(0,0,W,H);
+  const slabY = H*0.38, slabH = H*0.22;
+  const sg = ctx.createLinearGradient(0,slabY,0,slabY+slabH);
+  sg.addColorStop(0,'#1e1e26'); sg.addColorStop(0.3,'#28283a'); sg.addColorStop(1,'#0e0e14');
+  ctx.fillStyle = sg;
+  ctx.beginPath();
+  ctx.moveTo(W*0.06,slabY+8); ctx.lineTo(W*0.94,slabY);
+  ctx.lineTo(W*0.94,slabY+slabH-6); ctx.lineTo(W*0.06,slabY+slabH);
+  ctx.fill();
+  ctx.globalAlpha = 0.18;
+  for (let i=0; i<6; i++) {
+    const vx=W*(0.1+Math.random()*0.8), vy=slabY+slabH*Math.random();
+    const vg=ctx.createLinearGradient(vx-40,vy,vx+60,vy+10);
+    vg.addColorStop(0,'transparent'); vg.addColorStop(0.4,'#8888bb'); vg.addColorStop(1,'transparent');
+    ctx.strokeStyle=vg; ctx.lineWidth=0.5+Math.random();
+    ctx.beginPath(); ctx.moveTo(vx-50,vy+Math.random()*6);
+    ctx.bezierCurveTo(vx,vy-4,vx+20,vy+8,vx+80,vy+2); ctx.stroke();
+  }
+  ctx.globalAlpha=1;
+  const eg=ctx.createLinearGradient(W*0.06,0,W*0.94,0);
+  eg.addColorStop(0,'transparent'); eg.addColorStop(0.5,'rgba(224,194,120,0.9)'); eg.addColorStop(1,'transparent');
+  ctx.strokeStyle=eg; ctx.lineWidth=1.2;
+  ctx.beginPath(); ctx.moveTo(W*0.06,slabY+8); ctx.lineTo(W*0.94,slabY); ctx.stroke();
+  [W*0.14, W*0.82].forEach(lx => {
+    const lw=W*0.05;
+    const lg=ctx.createLinearGradient(lx-lw/2,0,lx+lw/2,0);
+    lg.addColorStop(0,'#1a1008'); lg.addColorStop(0.5,'#2a1c0e'); lg.addColorStop(1,'#120c05');
+    ctx.fillStyle=lg;
+    ctx.beginPath(); ctx.moveTo(lx-lw/2+4,slabY+slabH); ctx.lineTo(lx+lw/2-4,slabY+slabH);
+    ctx.lineTo(lx+lw/2-8,H*0.82); ctx.lineTo(lx-lw/2+8,H*0.82); ctx.fill();
+  });
+  const sp=ctx.createRadialGradient(W*0.5,0,0,W*0.5,H*0.2,W*0.6);
+  sp.addColorStop(0,'rgba(255,245,220,0.07)'); sp.addColorStop(1,'transparent');
+  ctx.fillStyle=sp; ctx.fillRect(0,0,W,H);
+}
+
+/* ── CANVAS: Aurum Console (walnut + brass) ── */
+function drawAurum(canvas) {
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width, H=canvas.height;
+  const bg=ctx.createLinearGradient(0,0,0,H);
+  bg.addColorStop(0,'#100e08'); bg.addColorStop(1,'#141008');
+  ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+  const ty=H*0.32, th=H*0.12;
+  const tg=ctx.createLinearGradient(0,ty,0,ty+th);
+  tg.addColorStop(0,'#3a2410'); tg.addColorStop(0.5,'#4a3018'); tg.addColorStop(1,'#28180a');
+  ctx.fillStyle=tg; ctx.fillRect(W*0.08,ty,W*0.84,th);
+  ctx.globalAlpha=0.15;
+  for(let i=0;i<20;i++){
+    const gy=ty+3+i*(th/20);
+    const gr=ctx.createLinearGradient(W*0.08,0,W*0.92,0);
+    gr.addColorStop(0,'transparent'); gr.addColorStop(0.2,'rgba(200,140,60,0.8)'); gr.addColorStop(1,'transparent');
+    ctx.strokeStyle=gr; ctx.lineWidth=0.6;
+    ctx.beginPath(); ctx.moveTo(W*0.08,gy); ctx.lineTo(W*0.92,gy+(Math.random()-0.5)*3); ctx.stroke();
+  }
+  ctx.globalAlpha=1;
+  const br=ctx.createLinearGradient(W*0.08,0,W*0.92,0);
+  br.addColorStop(0,'transparent'); br.addColorStop(0.5,'rgba(210,170,80,1)'); br.addColorStop(1,'transparent');
+  ctx.strokeStyle=br; ctx.lineWidth=2; ctx.strokeRect(W*0.08,ty,W*0.84,th);
+  const ag=ctx.createLinearGradient(0,ty+th,0,ty+th+H*0.08);
+  ag.addColorStop(0,'#2e1e0c'); ag.addColorStop(1,'#1e1208');
+  ctx.fillStyle=ag; ctx.fillRect(W*0.1,ty+th,W*0.8,H*0.06);
+  const py=ty+th+H*0.03;
+  const pg=ctx.createLinearGradient(W*0.42,py-4,W*0.58,py+4);
+  pg.addColorStop(0,'#8a6820'); pg.addColorStop(0.5,'#f0cc60'); pg.addColorStop(1,'#a07830');
+  ctx.strokeStyle=pg; ctx.lineWidth=3; ctx.lineCap='round';
+  ctx.beginPath(); ctx.moveTo(W*0.43,py); ctx.lineTo(W*0.57,py); ctx.stroke();
+  [W*0.43,W*0.57].forEach(px=>{ ctx.beginPath(); ctx.arc(px,py,2.5,0,Math.PI*2); ctx.fillStyle='#c9a840'; ctx.fill(); });
+  [W*0.15,W*0.85].forEach(lx=>{
+    const lg=ctx.createLinearGradient(lx-8,0,lx+8,0);
+    lg.addColorStop(0,'#1a1008'); lg.addColorStop(0.5,'#2e2010'); lg.addColorStop(1,'#140c06');
+    ctx.fillStyle=lg; ctx.beginPath();
+    ctx.moveTo(lx-9,ty+th+H*0.06); ctx.lineTo(lx+9,ty+th+H*0.06);
+    ctx.lineTo(lx+5,H*0.78); ctx.lineTo(lx-5,H*0.78); ctx.fill();
+    ctx.fillStyle='#b08830'; ctx.fillRect(lx-5,H*0.77,10,6);
+  });
+}
+
+/* ── CANVAS: Noctis Desk (smoked obsidian + oak) ── */
+function drawNoctis(canvas) {
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width, H=canvas.height;
+  const bg=ctx.createLinearGradient(0,0,W,H);
+  bg.addColorStop(0,'#0a0a0e'); bg.addColorStop(1,'#0e0c10');
+  ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+  const dy=H*0.35, dh=H*0.18;
+  const dg=ctx.createLinearGradient(0,dy,0,dy+dh);
+  dg.addColorStop(0,'#222230'); dg.addColorStop(0.15,'#2a2a3e'); dg.addColorStop(1,'#101018');
+  ctx.fillStyle=dg;
+  ctx.beginPath(); ctx.moveTo(W*0.04,dy+6); ctx.lineTo(W*0.96,dy);
+  ctx.lineTo(W*0.96,dy+dh); ctx.lineTo(W*0.04,dy+dh+8); ctx.fill();
+  ctx.globalAlpha=0.12;
+  for(let i=0;i<8;i++){
+    const ry=dy+10+i*(dh/9);
+    const rg=ctx.createLinearGradient(0,ry,W,ry);
+    rg.addColorStop(0,'transparent'); rg.addColorStop(0.5,'#8080c0'); rg.addColorStop(1,'transparent');
+    ctx.strokeStyle=rg; ctx.lineWidth=0.8;
+    ctx.beginPath(); ctx.moveTo(W*0.06,ry); ctx.lineTo(W*0.94,ry-i*0.3); ctx.stroke();
+  }
+  ctx.globalAlpha=1;
+  const eg=ctx.createLinearGradient(W*0.04,0,W*0.96,0);
+  eg.addColorStop(0,'transparent'); eg.addColorStop(0.5,'rgba(224,194,120,1)'); eg.addColorStop(1,'transparent');
+  ctx.strokeStyle=eg; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(W*0.04,dy+6); ctx.lineTo(W*0.96,dy); ctx.stroke();
+  [W*0.12,W*0.88].forEach(lx=>{
+    const lg=ctx.createLinearGradient(lx-9,0,lx+9,0);
+    lg.addColorStop(0,'#1e1408'); lg.addColorStop(0.5,'#2c1e0c'); lg.addColorStop(1,'#160e04');
+    ctx.fillStyle=lg; ctx.beginPath();
+    ctx.moveTo(lx-9,dy+dh); ctx.lineTo(lx+9,dy+dh);
+    ctx.lineTo(lx+6,H*0.80); ctx.lineTo(lx-6,H*0.80); ctx.fill();
+  });
+  const sg=ctx.createLinearGradient(0,H*0.64-4,0,H*0.64+4);
+  sg.addColorStop(0,'#241a08'); sg.addColorStop(1,'#1a1206');
+  ctx.fillStyle=sg; ctx.fillRect(W*0.15,H*0.64-3,W*0.70,6);
+  const tl=ctx.createRadialGradient(W*0.5,0,0,W*0.5,H*0.15,W*0.5);
+  tl.addColorStop(0,'rgba(160,160,220,0.06)'); tl.addColorStop(1,'transparent');
+  ctx.fillStyle=tl; ctx.fillRect(0,0,W,H);
+}
+
+/* ── SIZE + DRAW each canvas to fit its card ── */
+function initCanvases() {
+  [{id:'c1',fn:drawUmbra},{id:'c2',fn:drawAurum},{id:'c3',fn:drawNoctis}]
+    .forEach(({id,fn}) => {
+      const canvas = document.getElementById(id);
+      const rect   = canvas.parentElement.getBoundingClientRect();
+      const dpr    = window.devicePixelRatio || 1;
+      const w = rect.width || 300, h = rect.height || 400;
+      canvas.width  = w * dpr; canvas.height = h * dpr;
+      canvas.style.width = w+'px'; canvas.style.height = h+'px';
+      canvas.getContext('2d').scale(dpr, dpr);
+      fn(canvas);
+    });
+}
+
+/* ── SCROLL REVEAL using IntersectionObserver ── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+window.addEventListener('load', initCanvases);
+setTimeout(initCanvases, 300);
+</script>
+</body>
+</html> 
